@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Valeria Vozzheva](https://up.htmlacademy.ru/javascript/20/user/503315).
-* Наставник: `Неизвестно`.
+* Наставник: `Полина Прокофьева`.
 
 ---
 
