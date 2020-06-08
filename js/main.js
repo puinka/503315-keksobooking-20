@@ -1,6 +1,6 @@
 'use strict';
 
-var OFFERS_AMMOUNT = 8;
+var ADS_AMMOUNT = 8;
 var TYPES = ['palace', 'flat', 'house', 'bungalo'];
 var CHECK_TIMES = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
@@ -12,7 +12,9 @@ var getRandomNumber = function (min, max) {
 
 var getNoRepeats = function (arr) {
   var unique = [];
-  for (var i = 0; i < getRandomNumber(1, arr.length); i++) {
+  var randomLength = getRandomNumber(1, arr.length);
+
+  for (var i = 0; i < randomLength; i++) {
     if (getRandomNumber(0, 1)) {
       unique.push(arr[i]);
     }
@@ -21,15 +23,15 @@ var getNoRepeats = function (arr) {
 };
 
 
-var addSimmilarOffer = function (amount) {
-  var simmilarOffers = [];
+var generateAdvertisements = function (amount) {
+  var similarAds = [];
 
   for (var i = 0; i < amount; i++) {
 
     var locationX = getRandomNumber(100, 740);
     var locationY = getRandomNumber(130, 630);
 
-    var announcement = {
+    var advertisement = {
       author: {
         avatar: 'img/avatars/user0' + (i + 1) + '.png',
       },
@@ -54,9 +56,9 @@ var addSimmilarOffer = function (amount) {
       }
     };
 
-    simmilarOffers[i] = announcement;
+    similarAds[i] = advertisement;
   }
-  return simmilarOffers;
+  return similarAds;
 };
 
 var renderPin = function (pin) {
@@ -67,27 +69,27 @@ var renderPin = function (pin) {
   var pinElement = pinTemplate.cloneNode(true);
 
   var shiftLeft = pinElement.querySelector('img').width / 2;
-  var shiftTop = pinElement.querySelector('img').height / 2;
+
 
   pinElement.style.left = pin.location.x + shiftLeft + 'px';
-  pinElement.style.top = pin.location.y + shiftTop + 'px';
+  pinElement.style.top = pin.location.y - pinElement.querySelector('img').height + 'px';
   pinElement.querySelector('img').src = pin.author.avatar;
   pinElement.querySelector('img').alt = pin.title;
 
   return pinElement;
 };
 
-var renderOffers = function () {
+var renderAds = function () {
   var map = document.querySelector('.map');
   map.classList.remove('map--faded');
 
-  var simmilarOffers = addSimmilarOffer(OFFERS_AMMOUNT);
+  var similarAds = generateAdvertisements(ADS_AMMOUNT);
 
   var fragment = document.createDocumentFragment();
-  for (var i = 0; i < simmilarOffers.length; i++) {
-    fragment.appendChild(renderPin(simmilarOffers[i]));
+  for (var i = 0; i < similarAds.length; i++) {
+    fragment.appendChild(renderPin(similarAds[i]));
   }
   map.appendChild(fragment);
 };
 
-renderOffers();
+renderAds();
