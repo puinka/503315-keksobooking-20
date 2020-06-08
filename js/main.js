@@ -10,15 +10,14 @@ var getRandomNumber = function (min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 };
 
-var generateItems = function (arr, min, max) {
-  var amount = getRandomNumber(min, max);
-  var result = [];
-
-  for (var i = 0; i < amount; i++) {
-    result[i] = arr[Math.floor(Math.random() * arr.length)];
+var getNoRepeats = function (arr) {
+  var unique = [];
+  for (var i = 0; i < getRandomNumber(1, arr.length); i++) {
+    if (getRandomNumber(0, 1)) {
+      unique.push(arr[i]);
+    }
   }
-  // не знаю как сделать, чтобы элементы не повторялись
-  return result;
+  return unique;
 };
 
 
@@ -27,50 +26,58 @@ var addSimmilarOffer = function (amount) {
 
   for (var i = 0; i < amount; i++) {
 
-    var offer = {
+    var locationX = getRandomNumber(100, 740);
+    var locationY = getRandomNumber(130, 630);
+
+    var announcement = {
       author: {
-        avatar: 'img/avatars/user0' + getRandomNumber(1, 8) + '.png',
+        avatar: 'img/avatars/user0' + (i + 1) + '.png',
       },
-      title: 'title',
-      address: '{{location.x}}, {{location.y}}',
-      price: 5000,
-      type: TYPES[Math.floor(Math.random() * TYPES.length)],
-      rooms: 1,
-      guests: 2,
-      checkin: CHECK_TIMES[Math.floor(Math.random() * CHECK_TIMES.length)],
-      checkout: CHECK_TIMES[Math.floor(Math.random() * CHECK_TIMES.length)],
-      features: generateItems(FEATURES, 1, 4),
-      description: 'строка с описанием',
-      photos: generateItems(PHOTOS, 1, 4),
+
+      offer: {
+        title: 'title',
+        address: locationX + ', ' + locationY,
+        price: 5000,
+        type: TYPES[getRandomNumber(1, TYPES.length)],
+        rooms: getRandomNumber(1, 6),
+        guests: getRandomNumber(1, 10),
+        checkin: CHECK_TIMES[getRandomNumber(1, CHECK_TIMES.length)],
+        checkout: CHECK_TIMES[getRandomNumber(1, CHECK_TIMES.length)],
+        features: getNoRepeats(FEATURES),
+        description: 'строка с описанием',
+        photos: getNoRepeats(PHOTOS)
+      },
+
       location: {
-        x: getRandomNumber(100, 740),
-        y: getRandomNumber(130, 630)
+        x: locationX,
+        y: locationY
       }
     };
 
-    simmilarOffers[i] = offer;
+    simmilarOffers[i] = announcement;
   }
   return simmilarOffers;
 };
 
-var pinTemplate = document.querySelector('#pin')
+var renderPin = function (pin) {
+  var pinTemplate = document.querySelector('#pin')
     .content
     .querySelector('.map__pin');
 
-
-var renderPin = function (pin) {
   var pinElement = pinTemplate.cloneNode(true);
 
-  // смещение еще не делала
-  pinElement.style.left = pin.location.x + 'px';
-  pinElement.style.top = pin.location.y + 'px';
+  var shiftLeft = pinElement.querySelector('img').width / 2;
+  var shiftTop = pinElement.querySelector('img').height / 2;
+
+  pinElement.style.left = pin.location.x + shiftLeft + 'px';
+  pinElement.style.top = pin.location.y + shiftTop + 'px';
   pinElement.querySelector('img').src = pin.author.avatar;
   pinElement.querySelector('img').alt = pin.title;
 
   return pinElement;
 };
 
-var renderAll = function () {
+var renderOffers = function () {
   var map = document.querySelector('.map');
   map.classList.remove('map--faded');
 
@@ -81,9 +88,6 @@ var renderAll = function () {
     fragment.appendChild(renderPin(simmilarOffers[i]));
   }
   map.appendChild(fragment);
-
 };
 
-renderAll();
-
-
+renderOffers();
