@@ -11,8 +11,6 @@ var MAIN_PIN_HEIGHT = 86;
 var map = document.querySelector('.map');
 var mainPin = document.querySelector('.map__pin--main');
 var adForm = document.querySelector('.ad-form');
-//var adFormFieldsets = adForm.querySelectorAll('fieldset');
-//var titleInput = document.querySelector('#title');
 var typeSelect = document.querySelector('#type');
 var priceInput = document.querySelector('#price');
 var addressInput = document.querySelector('#address');
@@ -140,7 +138,7 @@ var setCapacity = function () {
         capacity.setCustomValidity('Слишком много народу! Максимум 2 гостя.');
       } else if (capacity.value === '0') {
         capacity.setCustomValidity('Тут должны быть гости.');
-      };
+      }
       break;
 
     case '3':
