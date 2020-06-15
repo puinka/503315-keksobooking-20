@@ -115,49 +115,47 @@ var enablePage = function () {
   capacity.addEventListener('change', setCapacity);
 };
 
-var setAddress = function (x, y) {
+var updateAddress = function () {
 
-  var locationX = Number(x.substring(0, x.length - 2)) + MAIN_PIN_WIDTH / 2;
-  var locationY = Number(y.substring(0, x.length - 2)) - MAIN_PIN_HEIGHT / 2;
+  var locationX = parseInt(mainPin.style.left, 10) + MAIN_PIN_WIDTH / 2;
+  var locationY = parseInt(mainPin.style.top, 10) + MAIN_PIN_HEIGHT;
   addressInput.value = locationX + ' ' + locationY;
 };
 
 
 var setCapacity = function () {
+  var message = '';
   switch (roomNumber.value) {
     case '1':
-      if (capacity.value === '2' || capacity.value === '2') {
-        capacity.setCustomValidity('Слишком много народу в одной комнте!');
+      if (capacity.value === '2' || capacity.value === '3') {
+        message = 'Слишком много народу в одной комнте!';
       } else if (capacity.value === '0') {
-        capacity.setCustomValidity('Тут должен быть гость.');
+        message = 'Тут должен быть гость.';
       }
       break;
 
     case '2':
       if (capacity.value === '3') {
-        capacity.setCustomValidity('Слишком много народу! Максимум 2 гостя.');
+        message = 'Слишком много народу! Максимум 2 гостя.';
       } else if (capacity.value === '0') {
-        capacity.setCustomValidity('Тут должны быть гости.');
+        message = 'Тут должны быть гости.';
       }
       break;
 
     case '3':
       if (capacity.value === '0') {
-        capacity.setCustomValidity('Тут должны быть гости.');
+        message = 'Тут должны быть гости.';
       }
       break;
 
 
     case '100':
       if (capacity.value === '1' || capacity.value === '2' || capacity.value === '3') {
-        capacity.setCustomValidity('Эта локация не для гостей.');
+        message = 'Эта локация не для гостей.';
       }
       break;
-
-    default:
-      capacity.setCustomValidity('');
   }
-
+  capacity.setCustomValidity(message);
 };
 
 
@@ -180,14 +178,14 @@ var setTypePrice = function () {
 var mousedownOnMainPin = function (evt) {
   if (evt.button === 0) {
     enablePage();
-    setAddress(mainPin.style.left, mainPin.style.top);
+    updateAddress();
   }
 };
 
 var keydownOnMainPin = function (evt) {
   if (evt.key === 'Enter') {
     enablePage();
-    setAddress(mainPin.style.left, mainPin.style.top);
+    updateAddress();
   }
 };
 
