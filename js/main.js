@@ -5,6 +5,18 @@ var TYPES = ['palace', 'flat', 'house', 'bungalo'];
 var CHECK_TIMES = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
+var MAIN_PIN_WIDTH = 64;
+var MAIN_PIN_HEIGHT = 86;
+
+var map = document.querySelector('.map');
+var mainPin = document.querySelector('.map__pin--main');
+var adForm = document.querySelector('.ad-form');
+var typeSelect = document.querySelector('#type');
+var priceInput = document.querySelector('#price');
+var addressInput = document.querySelector('#address');
+var roomNumber = document.querySelector('#room_number');
+var capacity = document.querySelector('#capacity');
+
 
 var getRandomNumber = function (min, max) {
   return Math.floor(Math.random() * (max - min) + min);
@@ -21,7 +33,6 @@ var getNoRepeats = function (arr) {
   }
   return unique;
 };
-
 
 var generateAdvertisements = function (amount) {
   var similarAds = [];
@@ -80,8 +91,6 @@ var renderPin = function (pin) {
 };
 
 var renderAds = function () {
-  var map = document.querySelector('.map');
-  map.classList.remove('map--faded');
 
   var similarAds = generateAdvertisements(ADS_AMMOUNT);
 
@@ -92,4 +101,97 @@ var renderAds = function () {
   map.appendChild(fragment);
 };
 
-renderAds();
+
+var enablePage = function () {
+  map.classList.remove('map--faded');
+  adForm.classList.remove('ad-form--disabled');
+  renderAds();
+
+  mainPin.removeEventListener('mousedown', mousedownOnMainPin);
+  mainPin.removeEventListener('keydown', keydownOnMainPin);
+
+  typeSelect.addEventListener('change', setTypePrice);
+  roomNumber.addEventListener('change', setCapacity);
+  capacity.addEventListener('change', setCapacity);
+};
+
+var updateAddress = function () {
+
+  var locationX = parseInt(mainPin.style.left, 10) + MAIN_PIN_WIDTH / 2;
+  var locationY = parseInt(mainPin.style.top, 10) + MAIN_PIN_HEIGHT;
+  addressInput.value = locationX + ' ' + locationY;
+};
+
+
+var setCapacity = function () {
+  var message = '';
+  switch (roomNumber.value) {
+    case '1':
+      if (capacity.value === '2' || capacity.value === '3') {
+        message = 'Слишком много народу в одной комнте!';
+      } else if (capacity.value === '0') {
+        message = 'Тут должен быть гость.';
+      }
+      break;
+
+    case '2':
+      if (capacity.value === '3') {
+        message = 'Слишком много народу! Максимум 2 гостя.';
+      } else if (capacity.value === '0') {
+        message = 'Тут должны быть гости.';
+      }
+      break;
+
+    case '3':
+      if (capacity.value === '0') {
+        message = 'Тут должны быть гости.';
+      }
+      break;
+
+
+    case '100':
+      if (capacity.value === '1' || capacity.value === '2' || capacity.value === '3') {
+        message = 'Эта локация не для гостей.';
+      }
+      break;
+  }
+  capacity.setCustomValidity(message);
+};
+
+
+var setTypePrice = function () {
+  if (typeSelect.value === 'bungalo') {
+    priceInput.min = 0;
+    priceInput.placeholder = 0;
+  } else if (typeSelect.value === 'flat') {
+    priceInput.min = 1000;
+    priceInput.placeholder = 1000;
+  } else if (typeSelect.value === 'house') {
+    priceInput.min = 5000;
+    priceInput.placeholder = 5000;
+  } else if (typeSelect.value === 'palace') {
+    priceInput.min = 10000;
+    priceInput.placeholder = 10000;
+  }
+};
+
+var mousedownOnMainPin = function (evt) {
+  if (evt.button === 0) {
+    enablePage();
+    updateAddress();
+  }
+};
+
+var keydownOnMainPin = function (evt) {
+  if (evt.key === 'Enter') {
+    enablePage();
+    updateAddress();
+  }
+};
+
+var firstLoad = function () {
+  mainPin.addEventListener('mousedown', mousedownOnMainPin);
+  mainPin.addEventListener('keydown', keydownOnMainPin);
+};
+
+firstLoad();
