@@ -28,7 +28,6 @@
             checkin: window.data.CHECK_TIMES[window.util.getRandomNumber(1, window.data.CHECK_TIMES.length)],
             checkout: window.data.CHECK_TIMES[window.util.getRandomNumber(1, window.data.CHECK_TIMES.length)],
             features: window.util.getNoRepeats(window.data.FEATURES),
-            description: 'строка с описанием',
             photos: window.util.getNoRepeats(window.data.PHOTOS)
           },
 
@@ -51,7 +50,11 @@
       for (var i = 0; i < similarAds.length; i++) {
         fragment.appendChild(window.pin.renderPin(similarAds[i]));
       }
+
+      var filtersContainer = document.querySelector('.map__filters-container');
       this.mapSection.appendChild(fragment);
+
+      window.map.mapSection.insertBefore(window.card.renderCard(similarAds[0]), filtersContainer);
     }
   };
 

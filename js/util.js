@@ -31,13 +31,14 @@
 
     getNoRepeats: function (arr) {
       var unique = [];
-      var randomLength = this.getRandomNumber(1, arr.length);
+      var randomLength = window.util.getRandomNumber(1, arr.length);
 
       for (var i = 0; i < randomLength; i++) {
-        if (this.getRandomNumber(0, 1)) {
+        if (window.util.getRandomNumber(0, 2)) {
           unique.push(arr[i]);
         }
       }
+
       return unique;
     }
   };

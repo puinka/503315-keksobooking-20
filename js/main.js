@@ -13,6 +13,13 @@
     window.form.typeSelect.addEventListener('change', window.form.setTypePrice);
     window.form.roomNumber.addEventListener('change', window.form.setCapacity);
     window.form.capacity.addEventListener('change', window.form.setCapacity);
+
+    window.form.adForm.classList.remove('ad-form--disabled');
+    window.form.mapFilters.classList.remove('map__filters--disabled');
+
+    for (var i = 0; i < window.form.fromFieldsets.length; i++) {
+      window.form.fromFieldsets[i].disabled = false;
+    }
   };
 
   var mousedownOnMainPin = function (evt) {
@@ -26,6 +33,15 @@
   var firstLoad = function () {
     window.pin.mainPin.addEventListener('mousedown', mousedownOnMainPin);
     window.pin.mainPin.addEventListener('keydown', keydownOnMainPin);
+
+    window.form.adForm.classList.add('ad-form--disabled');
+    window.form.mapFilters.classList.add('map__filters--disabled');
+
+    for (var i = 0; i < window.form.fromFieldsets.length; i++) {
+      window.form.fromFieldsets[i].disabled = true;
+    }
+
+
   };
 
   firstLoad();

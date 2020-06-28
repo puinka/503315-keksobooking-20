@@ -10,6 +10,8 @@
     addressInput: document.querySelector('#address'),
     roomNumber: document.querySelector('#room_number'),
     capacity: document.querySelector('#capacity'),
+    fromFieldsets: document.querySelectorAll('.ad-form fieldset'),
+    mapFilters: document.querySelector('.map__filters'),
 
     setCapacity: function () {
       var message = '';
@@ -61,6 +63,7 @@
         this.priceInput.placeholder = 10000;
       }
     }
+
 
   };
 })();
