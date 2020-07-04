@@ -76,8 +76,6 @@
     } else {
       photosList.remove();
     }
-
-
   };
 
 
