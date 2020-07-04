@@ -49,18 +49,26 @@
     },
 
     setTypePrice: function () {
-      if (this.typeSelect.value === 'bungalo') {
-        this.priceInput.min = 0;
-        this.priceInput.placeholder = 0;
-      } else if (this.typeSelect.value === 'flat') {
-        this.priceInput.min = 1000;
-        this.priceInput.placeholder = 1000;
-      } else if (this.typeSelect.value === 'house') {
-        this.priceInput.min = 5000;
-        this.priceInput.placeholder = 5000;
-      } else if (this.typeSelect.value === 'palace') {
-        this.priceInput.min = 10000;
-        this.priceInput.placeholder = 10000;
+      switch (window.form.typeSelect.value) {
+        case 'bungalo':
+          window.form.priceInput.min = 0;
+          window.form.priceInput.placeholder = 0;
+          break;
+
+        case 'flat':
+          window.form.priceInput.min = 1000;
+          window.form.priceInput.placeholder = 1000;
+          break;
+
+        case 'house':
+          window.form.priceInput.min = 5000;
+          window.form.priceInput.placeholder = 5000;
+          break;
+
+        case 'palace':
+          window.form.priceInput.min = 10000;
+          window.form.priceInput.placeholder = 10000;
+          break;
       }
     }
 
