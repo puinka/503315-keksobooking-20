@@ -17,9 +17,7 @@
     },
 
     renderPin: function (pin) {
-      var pinTemplate = document.querySelector('#pin')
-        .content
-        .querySelector('.map__pin');
+      var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 
       var pinElement = pinTemplate.cloneNode(true);
 
