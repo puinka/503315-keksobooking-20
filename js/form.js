@@ -12,6 +12,8 @@
     capacity: document.querySelector('#capacity'),
     fromFieldsets: document.querySelectorAll('.ad-form fieldset'),
     mapFilters: document.querySelector('.map__filters'),
+    checkIn: document.querySelector('#timein'),
+    checkOut: document.querySelector('#timeout'),
 
     setCapacity: function () {
       var message = '';
