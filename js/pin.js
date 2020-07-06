@@ -29,7 +29,16 @@
       pinElement.querySelector('img').src = pin.author.avatar;
       pinElement.querySelector('img').alt = pin.title;
 
+      pinElement.addEventListener('click', function () {
+        if (document.querySelector('.map__card') !== null) {
+          document.querySelector('.map__card').remove();
+        }
+
+        window.card.renderCard(pin);
+      });
+
       return pinElement;
     }
+
   };
 })();

@@ -78,10 +78,19 @@
     }
   };
 
+  var closeCard = function () {
+    document.querySelector('.map__card').remove();
+    document.removeEventListener('keydown', onCardEscPress);
+  };
+
+  var onCardEscPress = function (evt) {
+    window.util.isEscEvent(evt, closeCard);
+    document.removeEventListener('keydown', onCardEscPress);
+  };
 
   window.card = {
 
-    renderCard: function (advertisement) {
+    generateCard: function (advertisement) {
       var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 
 
@@ -98,9 +107,20 @@
       cardElement.querySelector('.popup__avatar').src = advertisement.author.avatar;
       cardElement.querySelector('.popup__description').textContent = advertisement.offer.description;
 
+
+      cardElement.querySelector('.popup__close').addEventListener('click', closeCard);
+      document.addEventListener('keydown', onCardEscPress);
+
       return cardElement;
 
-    }
+    },
+
+    renderCard: function (advertisement) {
+      var filtersContainer = document.querySelector('.map__filters-container');
+      window.map.mapSection.insertBefore(window.card.generateCard(advertisement), filtersContainer);
+    },
+
+
   };
 
 
