@@ -14,6 +14,14 @@
     window.form.roomNumber.addEventListener('change', window.form.setCapacity);
     window.form.capacity.addEventListener('change', window.form.setCapacity);
 
+    window.form.checkIn.addEventListener('change', function () {
+      window.form.checkOut.value = window.form.checkIn.value;
+    });
+
+    window.form.checkOut.addEventListener('change', function () {
+      window.form.checkIn.value = window.form.checkOut.value;
+    });
+
     window.form.adForm.classList.remove('ad-form--disabled');
     window.form.mapFilters.classList.remove('map__filters--disabled');
 
