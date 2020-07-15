@@ -30,7 +30,7 @@
 
     window.backend.load(function (data) {
       window.map.renderAds(data);
-    }, window.backend.onError);
+    });
 
   };
 
