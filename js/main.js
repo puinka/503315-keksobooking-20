@@ -5,7 +5,6 @@
   var enablePage = function () {
     window.map.mapSection.classList.remove('map--faded');
     window.form.adForm.classList.remove('ad-form--disabled');
-    window.map.renderAds();
 
     window.pin.mainPin.removeEventListener('mousedown', mousedownOnMainPin);
     window.pin.mainPin.removeEventListener('keydown', keydownOnMainPin);
@@ -28,6 +27,11 @@
     for (var i = 0; i < window.form.fromFieldsets.length; i++) {
       window.form.fromFieldsets[i].disabled = false;
     }
+
+    window.backend.load(function (data) {
+      window.map.renderAds(data);
+    }, window.backend.onError);
+
   };
 
   var mousedownOnMainPin = function (evt) {
@@ -49,9 +53,7 @@
       window.form.fromFieldsets[i].disabled = true;
     }
 
-
   };
-
   firstLoad();
 
 })();
