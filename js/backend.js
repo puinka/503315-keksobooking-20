@@ -44,8 +44,8 @@
 
     },
 
-    onError: function () {
-      console.log('Error placeholder');
+    onError: function (message) {
+      var message = message;
     }
   };
 
