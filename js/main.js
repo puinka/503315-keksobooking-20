@@ -28,9 +28,13 @@
       window.form.fromFieldsets[i].disabled = false;
     }
 
+    window.form.adForm.addEventListener('submit', window.form.submitAdForm);
+
     window.backend.load(function (data) {
       window.map.renderAds(data);
     });
+
+    document.querySelector('.ad-form__reset').addEventListener('click', window.form.resetForm);
 
   };
 
@@ -53,7 +57,13 @@
       window.form.fromFieldsets[i].disabled = true;
     }
 
+    window.form.adForm.removeEventListener('submit', window.form.submitAdForm);
+
   };
   firstLoad();
+
+  window.main = {
+    firstLoad: firstLoad
+  };
 
 })();

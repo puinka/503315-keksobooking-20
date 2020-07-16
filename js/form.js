@@ -2,9 +2,41 @@
 
 (function () {
 
+  var adForm = document.querySelector('.ad-form');
+
+  var submitAdForm = function (evt) {
+    evt.preventDefault();
+    window.backend.publish(new FormData(adForm), onSusscessPublish, onErrorPublish);
+  };
+
+
+  var onSusscessPublish = function () {
+    window.main.firstLoad();
+    window.map.mapSection.classList.add('map--faded');
+    removePins();
+    resetForm();
+    document.querySelector('.ad-form__reset').removeEventListener('click', window.form.resetForm);
+    window.modals.renderSuccess();
+  };
+
+  var onErrorPublish = function () {
+    window.modals.renderError();
+  };
+
+  var removePins = function () {
+    var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+    pins.forEach(function (element) {
+      element.remove();
+    });
+  };
+
+  var resetForm = function () {
+    adForm.reset();
+  };
+
   window.form = {
 
-    adForm: document.querySelector('.ad-form'),
+    adForm: adForm,
     typeSelect: document.querySelector('#type'),
     priceInput: document.querySelector('#price'),
     addressInput: document.querySelector('#address'),
@@ -14,6 +46,8 @@
     mapFilters: document.querySelector('.map__filters'),
     checkIn: document.querySelector('#timein'),
     checkOut: document.querySelector('#timeout'),
+    resetForm: resetForm,
+    submitAdForm: submitAdForm,
 
     setCapacity: function () {
       var message = '';
@@ -73,7 +107,6 @@
           break;
       }
     }
-
 
   };
 })();
