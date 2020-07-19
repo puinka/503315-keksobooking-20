@@ -13,7 +13,7 @@
   var onSusscessPublish = function () {
     window.main.firstLoad();
     window.map.mapSection.classList.add('map--faded');
-    removePins();
+    window.pin.removePins();
     resetForm();
     document.querySelector('.ad-form__reset').removeEventListener('click', window.form.resetForm);
     window.modals.renderSuccess();
@@ -21,13 +21,6 @@
 
   var onErrorPublish = function () {
     window.modals.renderError();
-  };
-
-  var removePins = function () {
-    var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-    pins.forEach(function (element) {
-      element.remove();
-    });
   };
 
   var resetForm = function () {
@@ -51,9 +44,9 @@
 
     setCapacity: function () {
       var message = '';
-      switch (this.roomNumber.value) {
+      switch (window.form.roomNumber.value) {
         case '1':
-          if (this.capacity.value === '2' || this.capacity.value === '3') {
+          if (window.form.capacity.value === '2' || window.form.capacity.value === '3') {
             message = 'Слишком много народу в одной комнте!';
           } else if (window.form.capacity.value === '0') {
             message = 'Тут должен быть гость.';
@@ -61,27 +54,27 @@
           break;
 
         case '2':
-          if (this.capacity.value === '3') {
+          if (window.form.capacity.value === '3') {
             message = 'Слишком много народу! Максимум 2 гостя.';
-          } else if (this.capacity.value === '0') {
+          } else if (window.form.capacity.value === '0') {
             message = 'Тут должны быть гости.';
           }
           break;
 
         case '3':
-          if (this.capacity.value === '0') {
+          if (window.form.capacity.value === '0') {
             message = 'Тут должны быть гости.';
           }
           break;
 
 
         case '100':
-          if (this.capacity.value === '1' || this.capacity.value === '2' || this.capacity.value === '3') {
+          if (window.form.capacity.value === '1' || window.form.capacity.value === '2' || window.form.capacity.value === '3') {
             message = 'Эта локация не для гостей.';
           }
           break;
       }
-      this.capacity.setCustomValidity(message);
+      window.form.capacity.setCustomValidity(message);
     },
 
     setTypePrice: function () {

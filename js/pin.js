@@ -3,11 +3,19 @@
 (function () {
   var MAIN_PIN_WIDTH = 64;
   var MAIN_PIN_HEIGHT = 86;
+  var mainPin = document.querySelector('.map__pin--main');
+
+  var removePins = function () {
+    var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+    pins.forEach(function (element) {
+      element.remove();
+    });
+  };
 
   window.pin = {
     MAIN_PIN_WIDTH: MAIN_PIN_WIDTH,
     MAIN_PIN_HEIGHT: MAIN_PIN_HEIGHT,
-    mainPin: document.querySelector('.map__pin--main'),
+    mainPin: mainPin,
 
     updateAddress: function () {
 
@@ -38,7 +46,9 @@
       });
 
       return pinElement;
-    }
+    },
+
+    removePins: removePins
 
   };
 })();
