@@ -79,13 +79,15 @@
   };
 
   var closeCard = function () {
-    document.querySelector('.map__card').remove();
-    document.removeEventListener('keydown', onCardEscPress);
+    var cardElement = document.querySelector('.map__card');
+    if (cardElement !== null) {
+      cardElement.remove();
+      document.removeEventListener('keydown', onCardEscPress);
+    }
   };
 
   var onCardEscPress = function (evt) {
     window.util.isEscEvent(evt, closeCard);
-    document.removeEventListener('keydown', onCardEscPress);
   };
 
   var generateCard = function (advertisement) {
@@ -118,7 +120,9 @@
     renderCard: function (advertisement) {
       var filtersContainer = document.querySelector('.map__filters-container');
       window.map.mapSection.insertBefore(generateCard(advertisement), filtersContainer);
-    }
+    },
+
+    closeCard: closeCard
 
   };
 
