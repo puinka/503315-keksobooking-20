@@ -31,6 +31,7 @@
     window.form.adForm.addEventListener('submit', window.form.submitAdForm);
 
     window.backend.load(function (data) {
+      window.loadedData = data;
       window.map.renderAds(data);
     });
 
