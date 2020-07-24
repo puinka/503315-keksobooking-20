@@ -72,12 +72,9 @@
       });
 
       var filteredFeatures = data.filter(function (item) {
-        // сравнить item.offer.features и activeFilters - два массива
         var isContain = item.offer.features.some(function (r) {
-          activeFilters.includes(r);
+          return activeFilters.includes(r);
         });
-
-        // работает item.offer.features.some(r=> activeFilters.includes(r)), а в синтаксисе ES5 - нет :(
 
         return isContain;
 
@@ -104,9 +101,9 @@
 
   };
 
-  filterForm.addEventListener('change', function () {
+  filterForm.addEventListener('change', window.debounce(function () {
     window.pin.removePins();
     window.card.closeCard();
     renderFilteredAds(window.loadedData);
-  });
+  }));
 })();
