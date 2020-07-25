@@ -4,7 +4,9 @@
 
   var PRICE_LOW = 10000;
   var PRICE_HIGH = 50000;
+  var DEFAULT_VALUE = 'any';
   var filterForm = document.querySelector('.map__filters');
+
 
   var filter = {
     housing: filterForm.querySelector('#housing-type'),
@@ -13,6 +15,8 @@
     guests: filterForm.querySelector('#housing-guests'),
     features: filterForm.querySelector('#housing-features')
   };
+
+  var featuresList = Array.from(filter.features.querySelectorAll('input'));
 
 
   var onFilterSelected = function (data, selection, action) {
@@ -61,7 +65,6 @@
   };
 
   var filterFeatures = function (data) {
-    var featuresList = Array.from(filter.features.querySelectorAll('input'));
     var activeInputs = featuresList.filter(function (input) {
       return input.checked;
     });
@@ -106,4 +109,20 @@
     window.card.closeCard();
     renderFilteredAds(window.loadedData);
   }));
+
+  var resetFilters = function () {
+
+    filter.housing.value = DEFAULT_VALUE;
+    filter.price.value = DEFAULT_VALUE;
+    filter.rooms.value = DEFAULT_VALUE;
+    filter.guests.value = DEFAULT_VALUE;
+
+    featuresList.forEach(function (item) {
+      item.checked = false;
+    });
+  };
+
+  window.filter = {
+    resetFilters: resetFilters
+  };
 })();

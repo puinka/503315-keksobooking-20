@@ -11,11 +11,8 @@
 
 
   var onSusscessPublish = function () {
-    window.main.firstLoad();
-    window.map.mapSection.classList.add('map--faded');
-    window.pin.removePins();
+
     resetForm();
-    document.querySelector('.ad-form__reset').removeEventListener('click', window.form.resetForm);
     window.modals.renderSuccess();
   };
 
@@ -24,7 +21,13 @@
   };
 
   var resetForm = function () {
+    window.main.firstLoad();
+    window.map.mapSection.classList.add('map--faded');
+    window.pin.removePins();
+    window.photo.resetPhotos();
+    window.filter.resetFilters();
     adForm.reset();
+    document.querySelector('.ad-form__reset').removeEventListener('click', window.form.resetForm);
   };
 
   window.form = {
