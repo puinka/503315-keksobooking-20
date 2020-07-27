@@ -28,13 +28,6 @@
       window.form.checkIn.value = window.form.checkOut.value;
     });
 
-    //window.form.adForm.classList.remove('ad-form--disabled');
-
-
-    // for (var i = 0; i < window.form.fromFieldsets.length; i++) {
-    //   window.form.fromFieldsets[i].disabled = false;
-    // }
-
     window.form.adForm.addEventListener('submit', window.form.onFormSubmit);
 
     window.backend.load(function (data) {
@@ -66,10 +59,6 @@
     window.form.mapFilterSelectors.forEach(function (element) {
       element.disabled = true;
     });
-
-    // for (var i = 0; i < window.form.fromFieldsets.length; i++) {
-    //   window.form.fromFieldsets[i].disabled = true;
-    // }
 
     window.form.adForm.removeEventListener('submit', window.form.onFormSubmit);
 
