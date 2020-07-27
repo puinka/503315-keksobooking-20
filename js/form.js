@@ -2,9 +2,41 @@
 
 (function () {
 
-  var adForm = document.querySelector('.ad-form');
 
-  var submitAdForm = function (evt) {
+  var MIN_PRICE = {
+    BUNGALO: 0,
+    FLAT: 1000,
+    HOUSE: 5000,
+    PALACE: 10000
+  };
+
+  var ROOM_AMOUNT = {
+    ONE: '1',
+    TWO: '2',
+    THREE: '3',
+    HUNDRED: '100'
+  };
+
+  var GUEST_AMOUNT = {
+    ZERO: '0',
+    ONE: '1',
+    TWO: '2',
+    THREE: '3'
+  };
+
+  var adForm = document.querySelector('.ad-form');
+  var typeSelect = document.querySelector('#type');
+  var priceInput = document.querySelector('#price');
+  var addressInput = document.querySelector('#address');
+  var roomNumber = document.querySelector('#room_number');
+  var capacity = document.querySelector('#capacity');
+  var fromFieldsets = document.querySelectorAll('.ad-form fieldset');
+  var mapFilters = document.querySelector('.map__filters');
+  var mapFilterSelectors = document.querySelectorAll('.map__filters select, fieldset');
+  var checkIn = document.querySelector('#timein');
+  var checkOut = document.querySelector('#timeout');
+
+  var onFormSubmit = function (evt) {
     evt.preventDefault();
     window.backend.publish(new FormData(adForm), onSusscessPublish, onErrorPublish);
   };
@@ -12,7 +44,7 @@
 
   var onSusscessPublish = function () {
 
-    resetForm();
+    onFormReset();
     window.modals.renderSuccess();
   };
 
@@ -20,59 +52,59 @@
     window.modals.renderError();
   };
 
-  var resetForm = function () {
+  var onFormReset = function () {
     window.main.firstLoad();
     window.map.mapSection.classList.add('map--faded');
     window.pin.removePins();
+    window.card.onCardClose();
     window.photo.resetPhotos();
     window.filter.resetFilters();
     adForm.reset();
-    document.querySelector('.ad-form__reset').removeEventListener('click', window.form.resetForm);
+    document.querySelector('.ad-form__reset').removeEventListener('click', window.form.onFormReset);
   };
 
   window.form = {
 
     adForm: adForm,
-    typeSelect: document.querySelector('#type'),
-    priceInput: document.querySelector('#price'),
-    addressInput: document.querySelector('#address'),
-    roomNumber: document.querySelector('#room_number'),
-    capacity: document.querySelector('#capacity'),
-    fromFieldsets: document.querySelectorAll('.ad-form fieldset'),
-    mapFilters: document.querySelector('.map__filters'),
-    checkIn: document.querySelector('#timein'),
-    checkOut: document.querySelector('#timeout'),
-    resetForm: resetForm,
-    submitAdForm: submitAdForm,
+    typeSelect: typeSelect,
+    priceInput: priceInput,
+    addressInput: addressInput,
+    roomNumber: roomNumber,
+    capacity: capacity,
+    formFieldsets: fromFieldsets,
+    mapFilters: mapFilters,
+    mapFilterSelectors: mapFilterSelectors,
+    checkIn: checkIn,
+    checkOut: checkOut,
+    onFormReset: onFormReset,
+    onFormSubmit: onFormSubmit,
 
-    setCapacity: function () {
+    onCapacityChange: function () {
       var message = '';
+
+      if (window.form.capacity.value === GUEST_AMOUNT.ZERO && window.form.roomNumber.value !== ROOM_AMOUNT.HUNDRED) {
+        if (window.form.roomNumber.value === ROOM_AMOUNT.ONE) {
+          message = 'Тут должен быть гость.';
+        } else {
+          message = 'Тут должны быть гости.';
+        }
+      }
+
       switch (window.form.roomNumber.value) {
-        case '1':
-          if (window.form.capacity.value === '2' || window.form.capacity.value === '3') {
+        case ROOM_AMOUNT.ONE:
+          if (window.form.capacity.value === GUEST_AMOUNT.TWO || window.form.capacity.value === GUEST_AMOUNT.THREE) {
             message = 'Слишком много народу в одной комнте!';
-          } else if (window.form.capacity.value === '0') {
-            message = 'Тут должен быть гость.';
           }
           break;
 
-        case '2':
-          if (window.form.capacity.value === '3') {
+        case ROOM_AMOUNT.TWO:
+          if (window.form.capacity.value === GUEST_AMOUNT.THREE) {
             message = 'Слишком много народу! Максимум 2 гостя.';
-          } else if (window.form.capacity.value === '0') {
-            message = 'Тут должны быть гости.';
           }
           break;
 
-        case '3':
-          if (window.form.capacity.value === '0') {
-            message = 'Тут должны быть гости.';
-          }
-          break;
-
-
-        case '100':
-          if (window.form.capacity.value === '1' || window.form.capacity.value === '2' || window.form.capacity.value === '3') {
+        case ROOM_AMOUNT.HUNDRED:
+          if (window.form.capacity.value === GUEST_AMOUNT.ONE || window.form.capacity.value === GUEST_AMOUNT.TWO || window.form.capacity.value === GUEST_AMOUNT.THREE) {
             message = 'Эта локация не для гостей.';
           }
           break;
@@ -80,26 +112,26 @@
       window.form.capacity.setCustomValidity(message);
     },
 
-    setTypePrice: function () {
+    onTypePriceChange: function () {
       switch (window.form.typeSelect.value) {
         case 'bungalo':
-          window.form.priceInput.min = 0;
-          window.form.priceInput.placeholder = 0;
+          window.form.priceInput.min = MIN_PRICE.BUNGALO;
+          window.form.priceInput.placeholder = MIN_PRICE.BUNGALO;
           break;
 
         case 'flat':
-          window.form.priceInput.min = 1000;
-          window.form.priceInput.placeholder = 1000;
+          window.form.priceInput.min = MIN_PRICE.FLAT;
+          window.form.priceInput.placeholder = MIN_PRICE.FLAT;
           break;
 
         case 'house':
-          window.form.priceInput.min = 5000;
-          window.form.priceInput.placeholder = 5000;
+          window.form.priceInput.min = MIN_PRICE.HOUSE;
+          window.form.priceInput.placeholder = MIN_PRICE.HOUSE;
           break;
 
         case 'palace':
-          window.form.priceInput.min = 10000;
-          window.form.priceInput.placeholder = 10000;
+          window.form.priceInput.min = MIN_PRICE.PALACE;
+          window.form.priceInput.placeholder = MIN_PRICE.PALACE;
           break;
       }
     }

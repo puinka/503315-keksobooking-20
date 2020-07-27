@@ -16,11 +16,12 @@
     features: filterForm.querySelector('#housing-features')
   };
 
+
   var featuresList = Array.from(filter.features.querySelectorAll('input'));
 
 
   var onFilterSelected = function (data, selection, action) {
-    if (selection.value !== 'any') {
+    if (selection.value !== DEFAULT_VALUE) {
       return data.filter(action);
     } else {
       return data;
@@ -106,7 +107,7 @@
 
   filterForm.addEventListener('change', window.debounce(function () {
     window.pin.removePins();
-    window.card.closeCard();
+    window.card.onCardClose();
     renderFilteredAds(window.loadedData);
   }));
 

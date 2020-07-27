@@ -2,6 +2,7 @@
 
 (function () {
 
+  var STATUS_OK = 200;
 
   window.backend = {
 
@@ -13,7 +14,7 @@
       xhr.responseType = 'json';
 
       xhr.addEventListener('load', function () {
-        if (xhr.status === 200) {
+        if (xhr.status === STATUS_OK) {
           onLoad(xhr.response);
         }
       });
@@ -32,7 +33,7 @@
       xhr.responseType = 'json';
 
       xhr.addEventListener('load', function () {
-        if (xhr.status === 200) {
+        if (xhr.status === STATUS_OK) {
           onLoad(xhr.response);
         } else {
           onError();
