@@ -2,6 +2,11 @@
 
 (function () {
 
+  var number = {
+    ONE: 1,
+    FIVE: 5
+  };
+
 
   var translateType = function (typeValue) {
     var ruValue = '';
@@ -19,9 +24,9 @@
 
   var translateRooms = function (roomValue) {
     var ruValue = '';
-    if (roomValue === 1) {
+    if (roomValue === number.ONE) {
       ruValue = ' комната';
-    } else if (roomValue > 1 && roomValue < 5) {
+    } else if (roomValue > number.ONE && roomValue < number.FIVE) {
       ruValue = ' комнаты';
     } else {
       ruValue = ' комнат';
@@ -31,7 +36,7 @@
 
   var translateGuests = function (guestsValue) {
     var ruValue = '';
-    if (guestsValue === 1) {
+    if (guestsValue === number.ONE) {
       ruValue = ' гостя';
     } else {
       ruValue = ' гостей';
@@ -78,7 +83,7 @@
     }
   };
 
-  var closeCard = function () {
+  var onCardClose = function () {
     var cardElement = document.querySelector('.map__card');
     if (cardElement !== null) {
       cardElement.remove();
@@ -87,7 +92,7 @@
   };
 
   var onCardEscPress = function (evt) {
-    window.util.isEscEvent(evt, closeCard);
+    window.util.isEscEvent(evt, onCardClose);
   };
 
   var generateCard = function (advertisement) {
@@ -108,7 +113,7 @@
     cardElement.querySelector('.popup__description').textContent = advertisement.offer.description;
 
 
-    cardElement.querySelector('.popup__close').addEventListener('click', closeCard);
+    cardElement.querySelector('.popup__close').addEventListener('click', onCardClose);
     document.addEventListener('keydown', onCardEscPress);
 
     return cardElement;
@@ -122,7 +127,7 @@
       window.map.mapSection.insertBefore(generateCard(advertisement), filtersContainer);
     },
 
-    closeCard: closeCard
+    onCardClose: onCardClose
 
   };
 
