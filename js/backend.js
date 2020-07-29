@@ -3,12 +3,14 @@
 (function () {
 
   var STATUS_OK = 200;
+  var URL = {
+    LOAD: 'https://javascript.pages.academy/keksobooking/data',
+    PUBLISH: 'https://javascript.pages.academy/keksobooking'
+  };
 
   window.backend = {
 
     load: function (onLoad) {
-
-      var URL = 'https://javascript.pages.academy/keksobooking/data';
 
       var xhr = new XMLHttpRequest();
       xhr.responseType = 'json';
@@ -19,15 +21,13 @@
         }
       });
 
-      xhr.open('GET', URL);
+      xhr.open('GET', URL.LOAD);
       xhr.send();
 
 
     },
 
     publish: function (data, onLoad, onError) {
-
-      var URL = 'https://javascript.pages.academy/keksobooking';
 
       var xhr = new XMLHttpRequest();
       xhr.responseType = 'json';
@@ -44,7 +44,7 @@
         onError();
       });
 
-      xhr.open('POST', URL);
+      xhr.open('POST', URL.PUBLISH);
       xhr.send(data);
 
     }
